@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.carousel-container {
+    overflow: hidden;
+    box-shadow: none !important;
+  }
+  

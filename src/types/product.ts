@@ -32,3 +32,10 @@ export interface FeedbackMessage {
   type: 'success' | 'error';
   message: string;
 }
+
+export interface SiteSettings {
+  id: string;
+  hero_image: string;
+  created_at?: string;
+  updated_at?: string;
+}
