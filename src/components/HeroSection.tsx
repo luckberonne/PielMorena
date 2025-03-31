@@ -14,11 +14,11 @@ export default function HeroSection({ onScrollToSection }: HeroSectionProps) {
       <div className="absolute inset-0">
         <img
           className="w-full h-[600px] object-cover"
-          src={settings?.hero_image || 'https://images.unsplash.com/photo-1614252240798-17e859b3e353?auto=format&fit=crop&q=80&w=2000'}
+          src={settings?.hero_image || 'https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?auto=format&fit=crop&q=80&w=2000'}
           alt="Zapatos artesanales de cuero premium"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            target.src = 'https://images.unsplash.com/photo-1449505278894-297fdb3edbc1?auto=format&fit=crop&q=80&w=2000';
+            target.src = 'https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?auto=format&fit=crop&q=80&w=2000';
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div>

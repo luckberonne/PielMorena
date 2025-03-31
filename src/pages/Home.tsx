@@ -293,7 +293,7 @@ export default function Home() {
             </div>
             <div className="relative mt-6 md:mt-0">
               <img
-                src="https://images.unsplash.com/photo-1585139786570-355c88231b55?auto=format&fit=crop&q=80&w=2000"
+                src="https://images.unsplash.com/photo-1515347619252-60a4bf4fff4f?auto=format&fit=crop&q=80&w=2000"
                 alt="Artesano trabajando el cuero"
                 className="rounded-lg shadow-xl w-full h-64 md:h-80 lg:h-96 object-cover"
                 onError={(e) => {
