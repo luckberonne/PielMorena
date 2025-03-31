@@ -162,7 +162,6 @@ export default function Home() {
               target.src = 'https://images.unsplash.com/photo-1449505278894-297fdb3edbc1?auto=format&fit=crop&q=80&w=2000';
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/40"></div>
         </div>
         <div className="relative max-w-7xl mx-auto py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl md:text-4xl font-serif font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
