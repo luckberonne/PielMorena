@@ -4,6 +4,7 @@ export interface Product {
   price?: number;
   description: string;
   featured: boolean;
+  category: string;
   created_at: string;
   updated_at: string;
   images: ProductImage[];
@@ -22,6 +23,7 @@ export interface CreateProductData {
   price?: number;
   description: string;
   featured: boolean;
+  category: string;
 }
 
 export interface UpdateProductData extends Partial<CreateProductData> {
@@ -36,6 +38,21 @@ export interface FeedbackMessage {
 export interface SiteSettings {
   id: string;
   hero_image: string;
+  banner_image?: string;
+  banner_text?: string;
+  banner_enabled?: boolean;
+  banner_link?: string;
   created_at?: string;
   updated_at?: string;
 }
+
+export const PRODUCT_CATEGORIES = [
+  'Zapatos Formales',
+  'Botas',
+  'Mocasines',
+  'Sandalias',
+  'Zapatillas',
+  'Otros'
+] as const;
+
+export type ProductCategory = typeof PRODUCT_CATEGORIES[number];

@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Footer from './components/Footer';
+import Banner from './components/Banner';
 import Home from './pages/Home';
 import Collection from './pages/Collection';
 import Admin from './pages/Admin';
@@ -9,6 +10,7 @@ import Admin from './pages/Admin';
 function App() {
   return (
     <div className="min-h-screen bg-[#f8f5f2]">
+      <Banner />
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />

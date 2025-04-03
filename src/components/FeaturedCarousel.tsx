@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Product } from '../types/product';
+import ProductCard from './ProductCard';
 
 interface FeaturedCarouselProps {
   products: Product[];
@@ -14,7 +15,7 @@ export default function FeaturedCarousel({ products, onProductClick }: FeaturedC
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
-        setSlidesToShow(3);
+        setSlidesToShow(4);
       } else if (window.innerWidth >= 768) {
         setSlidesToShow(2);
       } else {
@@ -72,29 +73,10 @@ export default function FeaturedCarousel({ products, onProductClick }: FeaturedC
                 className={`w-full flex-shrink-0 px-4`}
                 style={{ flex: `0 0 ${100 / slidesToShow}%` }}
               >
-                <div 
-                  className="cursor-pointer bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+                <ProductCard
+                  product={product}
                   onClick={() => onProductClick(product)}
-                >
-                  <div className="aspect-w-1 aspect-h-1 overflow-hidden">
-                    <img
-                      src={product.images[0]?.image_url}
-                      alt={product.name}
-                      className="w-full h-full object-cover object-center"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = '/placeholder.jpg';
-                      }}
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-serif font-medium text-gray-900">{product.name}</h3>
-                    {product.price && (
-                      <p className="text-lg text-[#2c2420] font-medium mt-2">${product.price.toFixed(2)}</p>
-                    )}
-                    <p className="mt-2 text-gray-600 line-clamp-2">{product.description}</p>
-                  </div>
-                </div>
+                />
               </div>
             ))}
           </div>

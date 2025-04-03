@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { SiteSettings } from '../types/product';
 
+interface UpdateBannerParams {
+  image?: File | null;
+  text?: string;
+  link?: string;
+  enabled?: boolean;
+}
+
 export function useSiteSettings() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
@@ -58,6 +65,48 @@ export function useSiteSettings() {
     }
   };
 
+  const updateBanner = async ({ image, text, link, enabled }: UpdateBannerParams) => {
+    try {
+      if (!settings?.id) throw new Error('No settings found');
+
+      let bannerImage = settings.banner_image;
+
+      if (image) {
+        const fileExt = image.name.split('.').pop();
+        const fileName = `banner/banner-image.${fileExt}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('site-images')
+          .upload(fileName, image, { upsert: true });
+
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('site-images')
+          .getPublicUrl(fileName);
+
+        bannerImage = publicUrl;
+      }
+
+      const { error: updateError } = await supabase
+        .from('site_settings')
+        .update({
+          banner_image: bannerImage,
+          banner_text: text,
+          banner_link: link,
+          banner_enabled: enabled
+        })
+        .eq('id', settings.id);
+
+      if (updateError) throw updateError;
+
+      await loadSettings();
+    } catch (err) {
+      console.error('Error updating banner:', err);
+      throw err;
+    }
+  };
+
   useEffect(() => {
     loadSettings();
   }, []);
@@ -67,6 +116,7 @@ export function useSiteSettings() {
     loading,
     error,
     updateHeroImage,
+    updateBanner,
     refresh: loadSettings
   };
 }

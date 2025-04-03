@@ -21,15 +21,52 @@ export const initializeAdminUser = async () => {
       password: ADMIN_PASSWORD,
     });
 
+    // Ignore "User already registered" error as it's expected
     if (error && error.message !== 'User already registered') {
       console.error('Error creating admin user:', error.message);
-    } else if (user) {
-      console.log('Admin user created successfully');
     }
   } catch (err) {
     console.error('Error initializing admin user:', err);
   }
 };
 
-// Call this function when the app starts
-initializeAdminUser();
+// Initialize storage buckets
+export const initializeStorage = async () => {
+  try {
+    // Create product-images bucket if it doesn't exist
+    const { data: productBucket, error: productError } = await supabase
+      .storage
+      .createBucket('product-images', {
+        public: true,
+        fileSizeLimit: 5242880, // 5MB
+        allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp']
+      });
+
+    if (productError && !productError.message.includes('already exists')) {
+      console.error('Error creating product-images bucket:', productError);
+    }
+
+    // Create site-images bucket if it doesn't exist
+    const { data: siteBucket, error: siteError } = await supabase
+      .storage
+      .createBucket('site-images', {
+        public: true,
+        fileSizeLimit: 5242880, // 5MB
+        allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp']
+      });
+
+    if (siteError && !siteError.message.includes('already exists')) {
+      console.error('Error creating site-images bucket:', siteError);
+    }
+  } catch (err) {
+    console.error('Error initializing storage buckets:', err);
+  }
+};
+
+// Initialize everything when the app starts
+Promise.all([
+  initializeAdminUser(),
+  initializeStorage()
+]).catch(err => {
+  console.error('Error during initialization:', err);
+});

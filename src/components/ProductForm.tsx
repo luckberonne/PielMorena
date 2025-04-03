@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, ImageIcon } from 'lucide-react';
-import { CreateProductData } from '../types/product';
+import { CreateProductData, PRODUCT_CATEGORIES } from '../types/product';
 
 interface ProductFormProps {
   formData: CreateProductData;
@@ -70,6 +70,23 @@ export default function ProductForm({
           minLength={3}
           maxLength={100}
         />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700">Categoría</label>
+        <select
+          value={formData.category}
+          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#2c2420] focus:ring focus:ring-[#2c2420] focus:ring-opacity-50"
+          required
+        >
+          <option value="">Seleccionar categoría</option>
+          {PRODUCT_CATEGORIES.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div>
