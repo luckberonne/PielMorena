@@ -16,9 +16,9 @@ export default function Collection() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
-  // Get categories that have products
+  // Get categories that have visible products
   const availableCategories = products
-    ? Array.from(new Set(products.map(p => p.category).filter(Boolean)))
+    ? Array.from(new Set(products.filter(p => p.visible).map(p => p.category).filter(Boolean)))
     : [];
 
   // Debounce search term
@@ -32,7 +32,10 @@ export default function Collection() {
 
   // Filtrar productos basado en el término de búsqueda y categoría
   const filteredProducts = products?.filter(product => {
+    if (!product.visible) return false;
+    
     const matchesSearch = 
+      
       product.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(debouncedSearchTerm.toLowerCase());
     

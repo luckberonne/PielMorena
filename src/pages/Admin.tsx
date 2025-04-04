@@ -24,7 +24,8 @@ export default function Admin() {
     price: undefined,
     description: '',
     featured: false,
-    category: ''
+    category: '',
+    visible: true
   });
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
@@ -168,7 +169,8 @@ export default function Admin() {
         price: product.price || undefined,
         description: product.description,
         featured: product.featured,
-        category: product.category
+        category: product.category,
+        visible: product.visible
       });
       setExistingImages(
         product.images.map(img => ({
@@ -183,7 +185,8 @@ export default function Admin() {
         price: undefined,
         description: '',
         featured: false,
-        category: ''
+        category: '',
+        visible: true
       });
       setExistingImages([]);
     }
@@ -198,7 +201,8 @@ export default function Admin() {
       price: undefined,
       description: '',
       featured: false,
-      category: ''
+      category: '',
+      visible: true
     });
     setSelectedImages([]);
     setImagePreviewUrls([]);
@@ -230,6 +234,19 @@ export default function Admin() {
     }
   };
 
+  const toggleVisibility = async (product: Product) => {
+    try {
+      await updateProduct({
+        id: product.id,
+        visible: !product.visible
+      });
+      showFeedback('success', `Producto ${!product.visible ? 'visible' : 'oculto'} correctamente`);
+    } catch (err) {
+      console.error('Error updating visibility:', err);
+      showFeedback('error', 'Error al actualizar la visibilidad');
+    }
+  };
+
   if (isAuthenticating) {
     return <LoadingSpinner />;
   }
@@ -257,31 +274,31 @@ export default function Admin() {
       {feedback && <FeedbackMessage feedback={feedback} />}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <h1 className="text-3xl font-serif font-bold">Administración de Productos</h1>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <button
               onClick={() => setIsHeroModalOpen(true)}
-              className="bg-[#2c2420] text-white px-4 py-2 rounded-md hover:bg-[#3c3430] transition-colors duration-300"
+              className="bg-[#2c2420] text-white px-4 py-2 rounded-md hover:bg-[#3c3430] transition-colors duration-300 text-sm sm:text-base"
             >
               Editar Imagen Principal
             </button>
             <button
               onClick={() => setIsBannerModalOpen(true)}
-              className="bg-[#2c2420] text-white px-4 py-2 rounded-md hover:bg-[#3c3430] transition-colors duration-300"
+              className="bg-[#2c2420] text-white px-4 py-2 rounded-md hover:bg-[#3c3430] transition-colors duration-300 text-sm sm:text-base"
             >
               Editar Banner
             </button>
             <button
               onClick={() => setIsBulkUploadOpen(true)}
-              className="bg-[#2c2420] text-white px-4 py-2 rounded-md hover:bg-[#3c3430] transition-colors duration-300 flex items-center"
+              className="bg-[#2c2420] text-white px-4 py-2 rounded-md hover:bg-[#3c3430] transition-colors duration-300 flex items-center text-sm sm:text-base"
             >
               <Upload size={20} className="mr-2" />
               Carga Masiva
             </button>
             <button
               onClick={() => openModal()}
-              className="bg-[#2c2420] text-white px-4 py-2 rounded-md hover:bg-[#3c3430] transition-colors duration-300 flex items-center"
+              className="bg-[#2c2420] text-white px-4 py-2 rounded-md hover:bg-[#3c3430] transition-colors duration-300 flex items-center text-sm sm:text-base"
             >
               <Plus size={20} className="mr-2" />
               Nuevo Producto
@@ -294,6 +311,7 @@ export default function Admin() {
           onEdit={openModal}
           onDelete={handleDelete}
           onToggleFeatured={toggleFeatured}
+          onToggleVisibility={toggleVisibility}
         />
       </div>
 

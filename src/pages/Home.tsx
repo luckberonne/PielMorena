@@ -7,8 +7,11 @@ import { Product } from '../types/product';
 import FeaturedCarousel from '../components/FeaturedCarousel';
 import HeroSection from '../components/HeroSection';
 import ProductModal from '../components/ProductModal';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+
 
 export default function Home() {
+  const { settings } = useSiteSettings();
   const { featuredProducts, loading, error } = useProducts();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -98,7 +101,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1585139786570-355c88231b55?auto=format&fit=crop&q=80&w=2000"
+                src={settings?.hero_image || 'https://images.unsplash.com/photo-1614252240798-17e859b3e353?auto=format&fit=crop&q=80&w=2000'}
                 alt="Artesano trabajando el cuero"
                 className="rounded-lg shadow-xl"
                 onError={(e) => {

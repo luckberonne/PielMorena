@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pencil, Trash2, Star, StarOff } from 'lucide-react';
+import { Pencil, Trash2, Star, StarOff, Eye, EyeOff } from 'lucide-react';
 import { Product } from '../types/product';
 
 interface ProductsTableProps {
@@ -7,16 +7,18 @@ interface ProductsTableProps {
   onEdit: (product: Product) => void;
   onDelete: (productId: string) => void;
   onToggleFeatured: (product: Product) => void;
+  onToggleVisibility: (product: Product) => void;
 }
 
 export default function ProductsTable({
   products,
   onEdit,
   onDelete,
-  onToggleFeatured
+  onToggleFeatured,
+  onToggleVisibility
 }: ProductsTableProps) {
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
+    <div className="bg-white rounded-lg shadow overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
@@ -28,6 +30,9 @@ export default function ProductsTable({
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Destacado
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Visible
             </th>
             <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
               Acciones
@@ -67,8 +72,20 @@ export default function ProductsTable({
                   className={`text-gray-600 hover:text-yellow-500 transition-colors duration-300 ${
                     product.featured ? 'text-yellow-500' : ''
                   }`}
+                  title={product.featured ? 'Quitar destacado' : 'Destacar producto'}
                 >
                   {product.featured ? <Star size={20} /> : <StarOff size={20} />}
+                </button>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <button
+                  onClick={() => onToggleVisibility(product)}
+                  className={`text-gray-600 hover:text-blue-500 transition-colors duration-300 ${
+                    product.visible ? 'text-blue-500' : ''
+                  }`}
+                  title={product.visible ? 'Ocultar producto' : 'Mostrar producto'}
+                >
+                  {product.visible ? <Eye size={20} /> : <EyeOff size={20} />}
                 </button>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

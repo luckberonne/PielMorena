@@ -5,6 +5,7 @@ export interface Product {
   description: string;
   featured: boolean;
   category: string;
+  visible: boolean;
   created_at: string;
   updated_at: string;
   images: ProductImage[];
@@ -24,6 +25,7 @@ export interface CreateProductData {
   description: string;
   featured: boolean;
   category: string;
+  visible?: boolean;
 }
 
 export interface UpdateProductData extends Partial<CreateProductData> {

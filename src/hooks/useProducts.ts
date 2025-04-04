@@ -23,7 +23,7 @@ export function useProducts() {
 
       const products = productsData as Product[];
       setProducts(products);
-      setFeaturedProducts(products.filter(p => p.featured));
+      setFeaturedProducts(products.filter(p => p.featured && p.visible));
       setError(null);
     } catch (err) {
       console.error('Error loading products:', err);
@@ -44,7 +44,7 @@ export function useProducts() {
       // Insert product
       const { data: product, error: productError } = await supabase
         .from('products')
-        .insert(productData)
+        .insert({ ...productData, visible: true })
         .select()
         .single();
 
